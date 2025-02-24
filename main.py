@@ -1,7 +1,14 @@
-print("hello stuff")
-hhhhh
+print("we are amazing")
+
+# How to represent graph
+
+
+
 
 # Implement heap
+# INPUT: 
+
+
 
 # Implement algorithm
 
