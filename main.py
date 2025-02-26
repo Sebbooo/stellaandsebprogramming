@@ -1,4 +1,7 @@
 import random
+import numpy as np
+import pandas as pd
+import matplotlib.pyplot as plt
 
 # How to represent graph
 # Use adjacency lists, somehow encode the weight function as well?
@@ -96,8 +99,6 @@ def complete_graph(n, d):
         it+=1
 
     return mst_value
-
-print(complete_graph(32768,1))
 
 class Heap2:
     # TBD, I think just start empty
@@ -207,4 +208,51 @@ def prim_algo(graph):
 
 
 # Implement testing area
+n_values = [128, 256, 512, 1024, 2048, 4096, 8192, 16384, 32768]
+d_values = [1, 2, 3]
+num_trials = 5
 
+# Collect data
+data = []
+for d in d_values:
+    print("STARTING D=",d)
+    for n in n_values:
+        print("STARTING N=",n)
+        for trial in range(1, num_trials + 1):
+            mst_weight = complete_graph(n, d)
+            data.append({'n': n, 'd': d, 'trial': trial, 'MST': mst_weight})
+
+# Create DataFrame
+df = pd.DataFrame(data)
+
+# Print DataFrame
+print(df)
+
+# Plot results
+plt.figure(figsize=(10, 6))
+
+for d in d_values:
+    subset = df[df['d'] == d]
+    
+    # Plot each trial
+    for trial in range(1, num_trials + 1):
+        trial_data = subset[subset['trial'] == trial]
+        plt.plot(trial_data['n'], trial_data['MST'], linestyle='-', color='gray', alpha=0.3)
+    
+    # Plot the average
+    avg_mst = subset.groupby('n')['MST'].mean()
+    plt.plot(n_values, avg_mst, linestyle='-', color='black', label=f'd={d} (avg)')
+
+# Add the convergence line
+plt.axhline(y=1.2, color='black', linestyle='dotted', label="y = 1.2")
+
+# Labels and title
+plt.xscale('log', base=2)
+plt.xlabel('n')
+plt.ylabel('Minimum Spanning Tree (MST) Weight')
+plt.title('MST Weight vs. n for Different d Values')
+plt.legend()
+plt.grid(True, which="both", linestyle="--", linewidth=0.5)
+
+# Show plot
+plt.show()
