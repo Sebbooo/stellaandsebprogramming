@@ -195,17 +195,52 @@ def prim_algo(graph):
 
             for neighbor, weight in graph[v]:
                 if neighbor not in visited:
-                    min_heap.insert(weight, v, neighbor)
+                    min_heap.insert((weight, v, neighbor))
 
     return mst_val
                 
                 
-    
-    
-    
+
+# Testing for hypercube
+n_values_hyper = [128, 256, 512, 1024, 2048, 4096, 8192, 16384, 32768, 65536, 131072, 262144]
+
+num_trials_hyper = 5
+data_hyper = []
+for n in n_values_hyper:
+        print("STARTING N=",n)
+        for trial in range(1, num_trials_hyper + 1):
+            mst_weight = prim_algo(generate_hypercube_graph(n))
+            data_hyper.append({'n': n,  'trial': trial, 'MST': mst_weight})
+
+# Create DataFrame
+df_hyper = pd.DataFrame(data_hyper)
+
+# Print DataFrame
+print(df_hyper)
+
+# Plot results
+plt.figure(figsize=(10, 6))
+
+# Plot each trial
+for trial in range(1, num_trials_hyper + 1):
+    trial_data_hyper = df_hyper[df_hyper['trial'] == trial]
+    plt.plot(trial_data_hyper['n'], trial_data_hyper['MST'], linestyle='-', color='gray', alpha=0.3)
+
+# Plot the average
+avg_mst = df_hyper.groupby('n')['MST'].mean()
+plt.plot(n_values_hyper, avg_mst, linestyle='-', color='black', label=f'(avg)')
+
+# Labels and title
+plt.xscale('log', base=2)
+plt.xlabel('number of vertices')
+plt.ylabel('Minimum Spanning Tree (MST) Weight')
+plt.title('MST Weight vs. n Vertices Hypercube Graph')
+plt.legend()
+plt.grid(True, which="both", linestyle="--", linewidth=0.5)
 
 
-
+# Show plot
+plt.show()
 
 # Implement testing area
 n_values = [128, 256, 512, 1024, 2048, 4096, 8192, 16384, 32768]
@@ -248,9 +283,9 @@ plt.axhline(y=1.2, color='black', linestyle='dotted', label="y = 1.2")
 
 # Labels and title
 plt.xscale('log', base=2)
-plt.xlabel('n')
+plt.xlabel('number of vertices')
 plt.ylabel('Minimum Spanning Tree (MST) Weight')
-plt.title('MST Weight vs. n for Different d Values')
+plt.title('MST Weight vs. n-Complete Graphs for Different d Values')
 plt.legend()
 plt.grid(True, which="both", linestyle="--", linewidth=0.5)
 
