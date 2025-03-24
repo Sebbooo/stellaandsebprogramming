@@ -24,7 +24,7 @@ def mult(A, B, ni=64):
         B = np.pad(B, ((0, 1), (0, 1)), mode='constant')
         n += 1
 
-    mid = n // 2
+    mid = n / 2
     A11, A12 = A[:mid, :mid], A[:mid, mid:]
     A21, A22 = A[mid:, :mid], A[mid:, mid:]
     B11, B12 = B[:mid, :mid], B[:mid, mid:]
