@@ -58,14 +58,14 @@ def mult(X, Y, ni=64):
 
     return C
 
-d = int(sys.argv[2])
+d = int(float(sys.argv[2]))
 
 with open(sys.argv[3], 'r') as f:
     numbers = []
     for line in f:
         try:
             numbers.append(float(line.strip()))
-            print(numbers[-1])
+            # print(numbers[-1])
         except ValueError as e:
             print(f"Failed to parse line: {line!r}")
             raise
