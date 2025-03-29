@@ -4,50 +4,50 @@ threshold = 3
 
 def bad(A, B):
     n = A.shape[0]
-    C = np.zeros((n, n), dtype=A.dtype)
+    C = np.zeros((n, n))
     for i in range(n):
         for j in range(n):
             for k in range(n):
-                C[i, j] += A[i, k] * B[k, j]
+                C[i, j]+=A[i, k]*B[k, j]
     return C
 
 
 def mult(A, B, ni=64):
     n = A.shape[0]
     
-    if n <= ni:
+    if n<=ni:
         return bad(A, B)
 
-    pad = n % 2
-    if pad:
+    if n%2:
         A = np.pad(A, ((0, 1), (0, 1)), mode='constant')
         B = np.pad(B, ((0, 1), (0, 1)), mode='constant')
         n += 1
 
-    mid = n / 2
+    mid = n/2
     A11, A12 = A[:mid, :mid], A[:mid, mid:]
     A21, A22 = A[mid:, :mid], A[mid:, mid:]
     B11, B12 = B[:mid, :mid], B[:mid, mid:]
     B21, B22 = B[mid:, :mid], B[mid:, mid:]
 
-    M1 = mult(A11 + A22, B11 + B22, ni)
-    M2 = mult(A21 + A22, B11, ni)
-    M3 = mult(A11, B12 - B22, ni)
-    M4 = mult(A22, B21 - B11, ni)
-    M5 = mult(A11 + A12, B22, ni)
-    M6 = mult(A21 - A11, B11 + B12, ni)
-    M7 = mult(A12 - A22, B21 + B22, ni)
+    P1 = mult(A11 + A22, B11 + B22, ni)
+    P2 = mult(A21 + A22, B11, ni)
+    P3 = mult(A11, B12 - B22, ni)
+    P4 = mult(A22, B21 - B11, ni)
+    P5 = mult(A11 + A12, B22, ni)
+    P6 = mult(A21 - A11, B11 + B12, ni)
+    P7 = mult(A12 - A22, B21 + B22, ni)
 
-    C11 = M1 + M4 - M5 + M7
-    C12 = M3 + M5
-    C21 = M2 + M4
-    C22 = M1 - M2 + M3 + M6
+    C11 = P1 + P4 - P5 + P7
+    C12 = P3 + P5
+    C21 = P2 + P4
+    C22 = P1 - P2 + P3 + P6
 
+    
     top = np.hstack((C11, C12))
     bottom = np.hstack((C21, C22))
     C = np.vstack((top, bottom))
 
-    if pad:
+    if n % 2:
         C = C[:n - 1, :n - 1]
 
     return C
@@ -60,3 +60,9 @@ C = mult(A, B)
 print("A @ B using Strassen:\n", C)
 
 print("A @ B using numpy:\n", A @ B)
+
+
+_,option, numpoints, numtrials, dimension = sys.argv
+dimension = int(dimension)
+numpoints = int(numpoints)
+numtrials = int(numtrials)
