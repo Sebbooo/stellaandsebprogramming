@@ -1,4 +1,5 @@
 import numpy as np
+import sys
 
 threshold = 3
 
@@ -52,17 +53,15 @@ def mult(A, B, ni=64):
 
     return C
 
+d = int(sys.argv[2])
 
-A = np.random.randint(0, 10, (9, 9))
-B = np.random.randint(0, 10, (9, 9))
+with open(sys.argv[3], 'r') as f:
+    numbers = [int(line.strip()) for line in f]
+
+A = np.array(numbers[:d*d]).reshape((d, d))
+B = np.array(numbers[d*d:]).reshape((d, d))
 
 C = mult(A, B)
-print("A @ B using Strassen:\n", C)
 
-print("A @ B using numpy:\n", A @ B)
-
-
-_,option, numpoints, numtrials, dimension = sys.argv
-dimension = int(dimension)
-numpoints = int(numpoints)
-numtrials = int(numtrials)
+for i in range(d):
+    print(C[i, i])
