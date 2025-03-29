@@ -2,7 +2,7 @@ import numpy as np
 
 threshold = 3
 
-def bad_mult(A, B):
+def bad(A, B):
     n = A.shape[0]
     C = np.zeros((n, n), dtype=A.dtype)
     for i in range(n):
@@ -16,7 +16,7 @@ def mult(A, B, ni=64):
     n = A.shape[0]
     
     if n <= ni:
-        return A @ B
+        return bad(A, B)
 
     pad = n % 2
     if pad:
