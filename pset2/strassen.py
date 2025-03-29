@@ -25,7 +25,7 @@ def mult(A, B, ni=64):
         n += 1
 
     # Copy paste laecture
-    mid = n/2
+    mid = n//2
     A = A[:mid, :mid]
     B = A[:mid, mid:]
     C = A[mid:, :mid]
