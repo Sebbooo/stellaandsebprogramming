@@ -61,7 +61,14 @@ def mult(X, Y, ni=64):
 d = int(sys.argv[2])
 
 with open(sys.argv[3], 'r') as f:
-    numbers = [float(line.strip()) for line in f]
+    numbers = []
+    for line in f:
+        try:
+            numbers.append(float(line.strip()))
+            print(numbers[-1])
+        except ValueError as e:
+            print(f"Failed to parse line: {line!r}")
+            raise
 
 A = np.array(numbers[:d*d]).reshape((d, d))
 B = np.array(numbers[d*d:]).reshape((d, d))
