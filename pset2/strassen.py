@@ -61,7 +61,7 @@ def mult(X, Y, ni=64):
 d = int(sys.argv[2])
 
 with open(sys.argv[3], 'r') as f:
-    numbers = [int(line.strip()) for line in f]
+    numbers = [float(line.strip()) for line in f]
 
 A = np.array(numbers[:d*d]).reshape((d, d))
 B = np.array(numbers[d*d:]).reshape((d, d))
