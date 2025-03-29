@@ -24,19 +24,25 @@ def mult(A, B, ni=64):
         B = np.pad(B, ((0, 1), (0, 1)), mode='constant')
         n += 1
 
+    # Copy paste laecture
     mid = n/2
-    A11, A12 = A[:mid, :mid], A[:mid, mid:]
-    A21, A22 = A[mid:, :mid], A[mid:, mid:]
-    B11, B12 = B[:mid, :mid], B[:mid, mid:]
-    B21, B22 = B[mid:, :mid], B[mid:, mid:]
+    A = A[:mid, :mid]
+    B = A[:mid, mid:]
+    C = A[mid:, :mid]
+    D = A[mid:, mid:]
 
-    P1 = mult(A11 + A22, B11 + B22, ni)
-    P2 = mult(A21 + A22, B11, ni)
-    P3 = mult(A11, B12 - B22, ni)
-    P4 = mult(A22, B21 - B11, ni)
-    P5 = mult(A11 + A12, B22, ni)
-    P6 = mult(A21 - A11, B11 + B12, ni)
-    P7 = mult(A12 - A22, B21 + B22, ni)
+    E = B[:mid, :mid]
+    F = B[:mid, mid:]
+    G = B[mid:, :mid]
+    H = B[mid:, mid:]
+
+    P1 = mult(A + D, E + H, ni)
+    P2 = mult(C + D, E, ni)
+    P3 = mult(A, F - H, ni)
+    P4 = mult(D, G - E, ni)
+    P5 = mult(A + B, H, ni)
+    P6 = mult(C - A, E + F, ni)
+    P7 = mult(B - D, G + H, ni)
 
     C11 = P1 + P4 - P5 + P7
     C12 = P3 + P5
