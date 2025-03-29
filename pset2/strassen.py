@@ -3,38 +3,37 @@ import sys
 
 threshold = 3
 
-def bad(A, B):
-    n = A.shape[0]
+def bad(X, Y):
+    n = X.shape[0]
     C = np.zeros((n, n))
     for i in range(n):
         for j in range(n):
             for k in range(n):
-                C[i, j]+=A[i, k]*B[k, j]
+                C[i, j]+=X[i, k]*Y[k, j]
     return C
 
 
-def mult(A, B, ni=64):
-    n = A.shape[0]
+def mult(X, Y, ni=64):
+    n = X.shape[0]
     
     if n<=ni:
-        return bad(A, B)
+        return bad(X, Y)
 
     if n%2:
-        A = np.pad(A, ((0, 1), (0, 1)), mode='constant')
-        B = np.pad(B, ((0, 1), (0, 1)), mode='constant')
+        X = np.pad(X, ((0, 1), (0, 1)), mode='constant')
+        Y = np.pad(Y, ((0, 1), (0, 1)), mode='constant')
         n += 1
 
-    # Copy paste laecture
     mid = n//2
-    A = A[:mid, :mid]
-    B = A[:mid, mid:]
-    C = A[mid:, :mid]
-    D = A[mid:, mid:]
+    A = X[:mid, :mid]
+    B = X[:mid, mid:]
+    C = X[mid:, :mid]
+    D = X[mid:, mid:]
 
-    E = B[:mid, :mid]
-    F = B[:mid, mid:]
-    G = B[mid:, :mid]
-    H = B[mid:, mid:]
+    E = Y[:mid, :mid]
+    F = Y[:mid, mid:]
+    G = Y[mid:, :mid]
+    H = Y[mid:, mid:]
 
     P1 = mult(A + D, E + H, ni)
     P2 = mult(C + D, E, ni)
