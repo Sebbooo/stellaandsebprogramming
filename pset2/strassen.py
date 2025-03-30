@@ -13,13 +13,15 @@ def bad(X, Y):
     return C
 
 
-def mult(X, Y, ni=64):
+def mult(X, Y, ni=16):
     n = X.shape[0]
     
     if n<=ni:
         return bad(X, Y)
 
-    if n%2:
+    #I am actually such a moron for missing this
+    changed = n%2
+    if changed:
         X = np.pad(X, ((0, 1), (0, 1)), mode='constant')
         Y = np.pad(Y, ((0, 1), (0, 1)), mode='constant')
         n += 1
@@ -53,22 +55,27 @@ def mult(X, Y, ni=64):
     bottom = np.hstack((C21, C22))
     C = np.vstack((top, bottom))
 
-    if n % 2:
+    if changed:
         C = C[:n - 1, :n - 1]
 
     return C
 
-d = int(float(sys.argv[2]))
+#TESTING
+# np.set_printoptions(threshold=np.inf, linewidth=np.inf)
+# X = np.random.randint(0, 11, (17, 17))
+# Y = np.random.randint(0, 11, (17, 17))
+
+# print(mult(X, Y, ni=8))
+
+
+
+
+d = int(sys.argv[2])
 
 with open(sys.argv[3], 'r') as f:
     numbers = []
     for line in f:
-        try:
-            numbers.append(float(line.strip()))
-            # print(numbers[-1])
-        except ValueError as e:
-            print(f"Failed to parse line: {line!r}")
-            raise
+        numbers.append(int(float(line.strip())))
 
 A = np.array(numbers[:d*d]).reshape((d, d))
 B = np.array(numbers[d*d:]).reshape((d, d))
@@ -76,4 +83,4 @@ B = np.array(numbers[d*d:]).reshape((d, d))
 C = mult(A, B)
 
 for i in range(d):
-    print(C[i, i])
+    print(int(C[i, i]))
