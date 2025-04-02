@@ -168,3 +168,5 @@ def main():
         diff_percent = (observed_triangles[i] - expected_triangles[i]) / expected_triangles[i] * 100
         print(f"| {p:^11.2f} | {observed_triangles[i]:^18.2f} | {expected_triangles[i]:^18.2f} | {diff_percent:^12.2f} |")
     print("-----------------------------------------------------------------------")
+
+main()
