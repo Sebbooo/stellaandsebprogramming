@@ -1,6 +1,18 @@
 # Karmarkar-Karp
 # Repeated Random
 import random
+import heapq
+
+def kk(A):
+    heap = [-a for a in A]
+    heapq.heapify(heap)
+
+    while len(heap) > 1:
+        heapq.heappush(heap, -abs(heapq.heappop(heap) - heapq.heappop(heap)))
+
+    return -heap[0]
+
+print(str(kk([1,2,3,4,4])))
 
 # assume input is an array of non-negative integers, not necessarily sorted
 def repeated_random(A, max_iter):
