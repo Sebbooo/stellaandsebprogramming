@@ -81,11 +81,60 @@ def calculate_prepartition_residue(A, P):
     return kk(partition_array)
 
 # Hill Climbing
+def hill_climb(A, max_iter=250):
+    n = len(A)
+    S = [random.choice([-1, 1]) for _ in A]
+    best = calculate_residue(A, S)
 
-# Prepartitioned Hill Climbing
+    for _ in range(max_iter):
+        new = S.copy()
+        inds = random.sample(range(n), 2)
+        new[inds[0]] *= -1
+        if random.random() < 0.5:
+            new[inds[1]] *= -1
 
+        new_r = calculate_residue(A, new)
+
+        if new_r < best:
+            S = new
+            best = new_r
+
+    return best
+
+print(str(hill_climb([1,2,4,4,50])))
 
 # Simulated Annealing
+import math
+
+def simulated_annealing(A, max_iter=250):
+    n = len(A)
+    S = [random.choice([-1, 1]) for _ in A]
+    best = calculate_residue(A, S)
+
+    for i in range(max_iter):
+        new = S.copy()
+        inds = random.sample(range(n), 2)
+        new[inds[0]] *= -1
+        if random.random() < 0.5:
+            new[inds[1]] *= -1
+
+        S_r = calculate_residue(A, S)
+        new_r = calculate_residue(A, new)
+
+        T = 1e10 * (0.8 ** (i / 300))
+
+        if new_r < S_r or random.random() < math.exp(-(new_r - S_r) / T):
+            S = new
+            S_r = new_r
+
+        if S_r < best:
+            best = S_r
+
+    return best
+
+print(str(simulated_annealing([1,2,4,4,50])))
+
+# Prepartitioned Hill Climbing
 
 
 # Prepartitioned Simulated Annealing
