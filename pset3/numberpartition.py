@@ -2,6 +2,7 @@
 # Repeated Random
 import random
 import heapq
+import math
 
 def kk(A):
     heap = [-a for a in A]
@@ -85,6 +86,7 @@ def hill_climb(A, max_iter=250):
     n = len(A)
     S = [random.choice([-1, 1]) for _ in A]
     best = calculate_residue(A, S)
+    best_S = S
 
     for _ in range(max_iter):
         new = S.copy()
@@ -98,8 +100,9 @@ def hill_climb(A, max_iter=250):
         if new_r < best:
             S = new
             best = new_r
+            best_S = S
 
-    return best
+    return best_S
 
 print(str(hill_climb([1,2,4,4,50])))
 # Simulated Annealing
@@ -107,6 +110,7 @@ def simulated_annealing(A, max_iter=250):
     n = len(A)
     S = [random.choice([-1, 1]) for _ in A]
     best = calculate_residue(A, S)
+    best_S = S
 
     for i in range(max_iter):
         new = S.copy()
@@ -126,8 +130,9 @@ def simulated_annealing(A, max_iter=250):
 
         if S_r < best:
             best = S_r
+            best_S = S
 
-    return best
+    return best_S
 
 print(str(simulated_annealing([1,2,4,4,50])))
 # Prepartitioned Hill Climbing
