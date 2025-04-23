@@ -2,6 +2,7 @@
 # Repeated Random
 import random
 import heapq
+import math
 
 def kk(A):
     heap = [-a for a in A]
@@ -81,7 +82,7 @@ def calculate_prepartition_residue(A, P):
     return kk(partition_array)
 
 # Hill Climbing
-def hill_climb(A, max_iter=250):
+def hill_climb(A, max_iter):
     n = len(A)
     S = [random.choice([-1, 1]) for _ in A]
     best = calculate_residue(A, S)
@@ -101,12 +102,45 @@ def hill_climb(A, max_iter=250):
 
     return best
 
-print(str(hill_climb([1,2,4,4,50])))
+# Hill Climbing Prepartitioned
+def hill_climb_prepartitioned(A, max_iter):
+    # Start with a random solution P
+    n = len(A)
+    P = [random.randint(1, n) for _ in range(n)]
+    best_residue = calculate_prepartition_residue(A, P)
+    
+    # For iter = 1 to max_iter
+    for _ in range(max_iter):
+        # P' = a random neighbor of P
+        # A neighbor is defined as changing the partition of one element
+        P_prime = P.copy()
+        
+        # Choose two random indices i and j with pi ≠ j
+        i = random.randint(0, n-1)  # Random element to change
+        current_partition = P_prime[i]
+        
+        # Find a different partition number for this element
+        possible_partitions = list(range(1, n+1))
+        possible_partitions.remove(current_partition)
+        
+        if possible_partitions:  # Make sure there's at least one other partition option
+            # Set pi to j (move element i to a different partition)
+            j = random.choice(possible_partitions)
+            P_prime[i] = j
+            
+            # Calculate residue of the neighbor
+            residue_prime = calculate_prepartition_residue(A, P_prime)
+            
+            # If neighbor is better, move to it
+            if residue_prime < best_residue:
+                P = P_prime
+                best_residue = residue_prime
+    
+    # Return best assignment found
+    return P
 
 # Simulated Annealing
-import math
-
-def simulated_annealing(A, max_iter=250):
+def simulated_annealing(A, max_iter):
     n = len(A)
     S = [random.choice([-1, 1]) for _ in A]
     best = calculate_residue(A, S)
