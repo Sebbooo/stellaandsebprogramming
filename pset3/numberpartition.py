@@ -81,6 +81,11 @@ def calculate_prepartition_residue(A, P):
     return kk(partition_array)
 
 # Hill Climbing
-# Simulated Annealing
+
 # Prepartitioned Hill Climbing
+
+
+# Simulated Annealing
+
+
 # Prepartitioned Simulated Annealing
