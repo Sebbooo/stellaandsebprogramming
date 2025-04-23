@@ -139,29 +139,26 @@ print(str(simulated_annealing([1,2,4,4,50])))
 # Prepartitioned Hill Climbing
 # Prepartitioned Simulated Annealing
 
-flag = int(sys.argv[1])  # not used here, but might be for extensions
-code = int(sys.argv[2])
-input_file = sys.argv[3]
 
-with open(input_file, 'r') as f:
-    A = [int(line.strip()) for line in f]
+# code = int(sys.argv[2])
+# input_file = sys.argv[3]
 
-if code == 0:
-    result = kk(A)
-elif code == 1:
-    result = repeated_random(A)
-elif code == 2:
-    result = hill_climb(A)
-elif code == 3:
-    result = simulated_annealing(A)
-elif code == 11:
-    result = prepartition_repeated_random(A)
-elif code == 12:
-    result = prepartition_hill_climb(A)
-elif code == 13:
-    result = prepartition_simulated_annealing(A)
-else:
-    print("Invalid algorithm code", file=sys.stderr)
-    sys.exit(1)
+# with open(input_file, 'r') as f:
+#     A = [int(line.strip()) for line in f]
 
-print(result)
+# if code == 0:
+#     result = kk(A)
+# elif code == 1:
+#     result = repeated_random(A)
+# elif code == 2:
+#     result = hill_climb(A)
+# elif code == 3:
+#     result = simulated_annealing(A)
+# elif code == 11:
+#     result = prepartition_repeated_random(A)
+# elif code == 12:
+#     result = prepartition_hill_climb(A)
+# elif code == 13:
+#     result = prepartition_simulated_annealing(A)
+
+# print(result)
