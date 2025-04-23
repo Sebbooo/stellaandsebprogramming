@@ -3,6 +3,7 @@
 import random
 import heapq
 import math
+import sys
 
 def kk(A):
     heap = [-a for a in A]
@@ -86,6 +87,7 @@ def hill_climb(A, max_iter):
     n = len(A)
     S = [random.choice([-1, 1]) for _ in A]
     best = calculate_residue(A, S)
+    best_S = S
 
     for _ in range(max_iter):
         new = S.copy()
@@ -99,8 +101,9 @@ def hill_climb(A, max_iter):
         if new_r < best:
             S = new
             best = new_r
+            best_S = S
 
-    return best
+    return best_S
 
 # Hill Climbing Prepartitioned
 def hill_climb_prepartitioned(A, max_iter):
@@ -144,6 +147,7 @@ def simulated_annealing(A, max_iter):
     n = len(A)
     S = [random.choice([-1, 1]) for _ in A]
     best = calculate_residue(A, S)
+    best_S = S
 
     for i in range(max_iter):
         new = S.copy()
@@ -163,8 +167,9 @@ def simulated_annealing(A, max_iter):
 
         if S_r < best:
             best = S_r
+            best_S = S
 
-    return best
+    return best_S
 
 print(str(simulated_annealing([1,2,4,4,50])))
 
@@ -172,3 +177,27 @@ print(str(simulated_annealing([1,2,4,4,50])))
 
 
 # Prepartitioned Simulated Annealing
+
+
+# code = int(sys.argv[2])
+# input_file = sys.argv[3]
+
+# with open(input_file, 'r') as f:
+#     A = [int(line.strip()) for line in f]
+
+# if code == 0:
+#     result = kk(A)
+# elif code == 1:
+#     result = repeated_random(A)
+# elif code == 2:
+#     result = hill_climb(A)
+# elif code == 3:
+#     result = simulated_annealing(A)
+# elif code == 11:
+#     result = prepartition_repeated_random(A)
+# elif code == 12:
+#     result = prepartition_hill_climb(A)
+# elif code == 13:
+#     result = prepartition_simulated_annealing(A)
+
+# print(result)
