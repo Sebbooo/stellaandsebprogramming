@@ -219,25 +219,25 @@ def simulated_annealing_prepartitioned(A, max_iter):
     # Return the best assignment found
     return best_P
 
-# code = int(sys.argv[2])
-# input_file = sys.argv[3]
+code = int(sys.argv[2])
+input_file = sys.argv[3]
 
-# with open(input_file, 'r') as f:
-#     A = [int(line.strip()) for line in f]
+with open(input_file, 'r') as f:
+    A = [int(line.strip()) for line in f]
 
-# if code == 0:
-#     result = kk(A)
-# elif code == 1:
-#     result = repeated_random(A)
-# elif code == 2:
-#     result = hill_climb(A)
-# elif code == 3:
-#     result = simulated_annealing(A)
-# elif code == 11:
-#     result = prepartition_repeated_random(A)
-# elif code == 12:
-#     result = prepartition_hill_climb(A)
-# elif code == 13:
-#     result = prepartition_simulated_annealing(A)
+if code == 0:
+    result = kk(A)
+elif code == 1:
+    result = repeated_random(A)
+elif code == 2:
+    result = hill_climb(A)
+elif code == 3:
+    result = simulated_annealing(A)
+elif code == 11:
+    result = prepartitioned_repeated_random(A)
+elif code == 12:
+    result = hill_climb_prepartitioned(A)
+elif code == 13:
+    result = simulated_annealing_prepartitioned(A)
 
-# print(result)
+print(result)
