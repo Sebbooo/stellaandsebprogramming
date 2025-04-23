@@ -173,11 +173,51 @@ def simulated_annealing(A, max_iter):
 
 print(str(simulated_annealing([1,2,4,4,50])))
 
-# Prepartitioned Hill Climbing
-
 
 # Prepartitioned Simulated Annealing
-
+def simulated_annealing_prepartitioned(A, max_iter):
+    n = len(A)
+    P = [random.randint(1, n) for _ in range(n)]
+    P_r = calculate_prepartition_residue(A, P)
+    best_residue = P_r
+    best_P = P.copy()
+    
+    for i in range(max_iter):
+        # P' = a random neighbor of P
+        # A neighbor is defined as changing the partition of one element
+        P_prime = P.copy()
+        
+        # Choose two random indices i and j with pi ≠ j
+        i = random.randint(0, n-1)  # Random element to change
+        current_partition = P_prime[i]
+        
+        # Find a different partition number for this element
+        possible_partitions = list(range(1, n+1))
+        possible_partitions.remove(current_partition)
+        
+        if possible_partitions:  # Make sure there's at least one other partition option
+            # Set pi to j (move element i to a different partition)
+            j = random.choice(possible_partitions)
+            P_prime[i] = j
+            
+            # Calculate residue of the neighbor
+            P_prime_r = calculate_prepartition_residue(A, P_prime)
+            
+            # Calculate temperature (cooling schedule)
+            T = 1e10 * (0.8 ** (i / 300))
+            
+            # Accept new solution if it's better or with probability based on temperature
+            if P_prime_r < P_r or random.random() < math.exp(-(P_prime_r - P_r) / T):
+                P = P_prime
+                P_r = P_prime_r
+            
+            # Keep track of the best solution found
+            if P_r < best_residue:
+                best_residue = P_r
+                best_P = P.copy()
+    
+    # Return the best assignment found
+    return best_P
 
 # code = int(sys.argv[2])
 # input_file = sys.argv[3]
